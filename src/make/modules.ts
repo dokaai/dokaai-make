@@ -26,9 +26,39 @@ const pathParameters = (located: LocatedOperation): MakeParameter[] =>
 
 const bodyParameters = (located: LocatedOperation): MakeParameter[] => {
   const schema = getJsonRequestSchema(located.operation.requestBody);
-  const excluded = new Set(pathParameterNames(located));
+  const excluded = new Set([
+    ...pathParameterNames(located),
+    'organizationId',
+    'projectId',
+    'createdById',
+    'createdDate',
+    'modifiedById',
+    'modifiedDate',
+    'isActive',
+    'isDeleted',
+  ]);
 
   return buildParametersFromObjectSchema(schema, excluded);
+};
+
+const fieldPriority = (field: MakeParameter): number => {
+  if (field.name === 'projectId') {
+    return 0;
+  }
+
+  if (field.name === 'customerPoolId') {
+    return 1;
+  }
+
+  if (field.name === 'targetAudienceListId' || field.name === 'filterOutTALId') {
+    return 2;
+  }
+
+  if (field.name === 'notificationHandlerId') {
+    return 3;
+  }
+
+  return 10;
 };
 
 const applyDynamicOptions = (field: MakeParameter): MakeParameter => {
@@ -139,7 +169,9 @@ const buildModule = (
     ...pathParameters(located),
     ...queryParameters(located),
     ...bodyParameters(located),
-  ].map(applyDynamicOptions);
+  ]
+    .map(applyDynamicOptions)
+    .sort((a, b) => fieldPriority(a) - fieldPriority(b));
 
   return {
     name: kebabCase(operationId),

@@ -20,6 +20,13 @@
       "options": "rpc://list-customer-pools"
     },
     {
+      "name": "filterOutTALId",
+      "type": "select",
+      "label": "Filter Out TALId",
+      "required": false,
+      "options": "rpc://list-target-audience-lists"
+    },
+    {
       "name": "search",
       "type": "text",
       "label": "Search",
@@ -48,13 +55,6 @@
           "value": "phoneNumber"
         }
       ]
-    },
-    {
-      "name": "filterOutTALId",
-      "type": "select",
-      "label": "Filter Out TALId",
-      "required": false,
-      "options": "rpc://list-target-audience-lists"
     },
     {
       "name": "page",

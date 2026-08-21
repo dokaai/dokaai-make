@@ -6,6 +6,13 @@
   "connection": "dokaai-api",
   "expect": [
     {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
@@ -17,13 +24,6 @@
       "type": "text",
       "label": "Customer Id",
       "required": true
-    },
-    {
-      "name": "projectId",
-      "type": "select",
-      "label": "Project Id",
-      "required": true,
-      "options": "rpc://list-projects"
     },
     {
       "name": "name",

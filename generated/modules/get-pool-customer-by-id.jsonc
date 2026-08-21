@@ -13,17 +13,17 @@
       "options": "rpc://list-projects"
     },
     {
-      "name": "customerId",
-      "type": "text",
-      "label": "Customer Id",
-      "required": true
-    },
-    {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
       "required": true,
       "options": "rpc://list-customer-pools"
+    },
+    {
+      "name": "customerId",
+      "type": "text",
+      "label": "Customer Id",
+      "required": true
     },
     {
       "name": "attributeTypes",

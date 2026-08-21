@@ -67,7 +67,12 @@ export const buildRpcs = (document: OpenApiDocument): MakeRpc[] =>
         method: located.method.toUpperCase(),
         response: {
           iterate: '{{ifempty(body.data, body.items, body.results, body)}}',
-          output: '{{item}}',
+          output: {
+            label:
+              '{{ifempty(item.name, item.projectName, item.customerPoolName, item.title, item.label, item.key, item.id)}}',
+            value:
+              '{{ifempty(item.id, item.projectId, item.customerPoolId, item.targetAudienceListId, item.notificationHandlerId, item.fieldName, item.key)}}',
+          },
         },
       },
     };

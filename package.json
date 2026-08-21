@@ -9,7 +9,8 @@
     "generate": "npm run build && node dist/src/scripts/build-app.js",
     "validate": "npm run build && node dist/src/scripts/validate-config.js",
     "test": "npm run build && node --test dist/test/**/*.test.js",
-    "check": "npm run validate && npm run test && npm run generate"
+    "check": "npm run validate && npm run test && npm run generate",
+    "push-make": "npm run generate && node dist/src/scripts/push-make.js"
   },
   "engines": {
     "node": ">=22.13.0 <23"
