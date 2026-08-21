@@ -16,7 +16,7 @@ export interface MakeOption {
 
 export interface MakeOptionsStore {
   store: MakeOption[] | string;
-  nested?: MakeParameter[];
+  nested?: Array<MakeParameter | string> | string;
 }
 
 export interface MakeParameter {
@@ -56,7 +56,7 @@ export interface MakeModule {
   description: string;
   type: 'action' | 'search';
   connection: string;
-  expect: MakeParameter[];
+  expect: Array<MakeParameter | string>;
   interface: MakeParameter[];
   communication: MakeCommunication;
 }

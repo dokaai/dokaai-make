@@ -47,6 +47,7 @@ export const buildParameterFromSchema = (
   name: string,
   schema: JsonSchema | undefined,
   required: boolean,
+  excluded: ReadonlySet<string> = backendOwnedFields,
 ): MakeParameter => {
   const normalized = normalizeSchema(schema);
   const type = mapType(normalized);
@@ -73,15 +74,15 @@ export const buildParameterFromSchema = (
   }
 
   if (type === 'collection') {
-    field.spec = buildParametersFromObjectSchema(normalized);
+    field.spec = buildParametersFromObjectSchema(normalized, excluded);
   }
 
   if (type === 'array') {
     const itemSchema = normalizeSchema(normalized.items);
     field.spec =
       readSchemaType(itemSchema) === 'object' || itemSchema.properties !== undefined
-        ? buildParametersFromObjectSchema(itemSchema)
-        : [buildParameterFromSchema('value', itemSchema, false)];
+        ? buildParametersFromObjectSchema(itemSchema, excluded)
+        : [buildParameterFromSchema('value', itemSchema, false, excluded)];
   }
 
   return field;
@@ -97,7 +98,7 @@ export const buildParametersFromObjectSchema = (
   return Object.entries(normalized.properties ?? {})
     .filter(([name]) => !excluded.has(name))
     .map(([name, property]) =>
-      buildParameterFromSchema(name, property, required.has(name)),
+      buildParameterFromSchema(name, property, required.has(name), excluded),
     );
 };
 

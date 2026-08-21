@@ -19,7 +19,10 @@
             "label": "Customer Pool Id",
             "required": true,
             "options": {
-              "store": "rpc://listCustomerPools"
+              "store": "rpc://listCustomerPools",
+              "nested": [
+                "rpc://listCustomerPoolAttributes"
+              ]
             }
           },
           {
@@ -113,15 +116,6 @@
           "type": "text",
           "label": "Name",
           "required": false
-        },
-        {
-          "name": "projectId",
-          "type": "select",
-          "label": "Project Id",
-          "required": false,
-          "options": {
-            "store": "rpc://listProjects"
-          }
         },
         {
           "name": "pinCode",

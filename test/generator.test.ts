@@ -2,9 +2,20 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { makeConfig } from '../src/config.js';
 import { buildMakeApp } from '../src/index.js';
+import type { MakeParameter } from '../src/make/types.js';
 import { readOpenApiDocument } from '../src/scripts/read-openapi.js';
 
 const app = buildMakeApp(readOpenApiDocument());
+
+const isParameter = (value: MakeParameter | string): value is MakeParameter =>
+  typeof value !== 'string';
+
+const nestedParameters = (field: MakeParameter): Array<MakeParameter | string> =>
+  typeof field.options === 'object' &&
+  !Array.isArray(field.options) &&
+  Array.isArray(field.options.nested)
+    ? field.options.nested
+    : [];
 
 test('uses the configured Make app identity', () => {
   assert.equal(app.app.name, process.env.MAKE_APP_NAME ?? 'dokaai');
@@ -69,9 +80,11 @@ test('nests dependent Make RPC fields under projectId', () => {
   );
 
   assert.ok(module);
-  const projectField = module.expect.find((field) => field.name === 'projectId');
+  const projectField = module.expect
+    .filter(isParameter)
+    .find((field) => field.name === 'projectId');
   const customerPoolAtRoot = module.expect.find(
-    (field) => field.name === 'customerPoolId',
+    (field) => isParameter(field) && field.name === 'customerPoolId',
   );
 
   assert.ok(projectField);
@@ -79,9 +92,49 @@ test('nests dependent Make RPC fields under projectId', () => {
   assert.equal(
     typeof projectField.options === 'object' &&
       !Array.isArray(projectField.options) &&
-      projectField.options?.nested?.some(
-        (field) => field.name === 'customerPoolId',
+      nestedParameters(projectField).some(
+        (field) => isParameter(field) && field.name === 'customerPoolId',
       ),
     true,
   );
+});
+
+test('nests customer attribute dynamic fields under customerPoolId', () => {
+  const module = app.modules.find(
+    (candidate) => candidate.name === 'addCustomersToPool',
+  );
+
+  assert.ok(module);
+  const projectField = module.expect
+    .filter(isParameter)
+    .find((field) => field.name === 'projectId');
+
+  assert.ok(projectField);
+  assert.equal(
+    typeof projectField.options === 'object' &&
+      !Array.isArray(projectField.options) &&
+      nestedParameters(projectField)
+        ?.filter(isParameter)
+        .find((field) => field.name === 'customerPoolId')
+        ?.options !== undefined,
+    true,
+  );
+
+  const customerPoolField =
+    typeof projectField.options === 'object' &&
+    !Array.isArray(projectField.options)
+      ? nestedParameters(projectField)
+          ?.filter(isParameter)
+          .find((field) => field.name === 'customerPoolId')
+      : undefined;
+
+  assert.equal(
+    typeof customerPoolField?.options === 'object' &&
+      !Array.isArray(customerPoolField.options) &&
+      customerPoolField.options?.nested?.includes(
+        'rpc://listCustomerPoolAttributes',
+      ),
+    true,
+  );
+  assert.equal(module.expect.includes('rpc://listCustomerPoolAttributes'), false);
 });

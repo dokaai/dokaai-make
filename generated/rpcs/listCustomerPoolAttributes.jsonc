@@ -8,8 +8,11 @@
       "limit": 500,
       "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
       "output": {
-        "label": "{{ifempty(item.name, item.projectName, item.customerPoolName, item.title, item.label, item.key, item.id)}}",
-        "value": "{{ifempty(item.id, item.projectId, item.customerPoolId, item.targetAudienceListId, item.notificationHandlerId, item.fieldName, item.key)}}"
+        "name": "{{item.fieldName}}",
+        "label": "{{ifempty(item.fieldDisplayName, item.fieldName)}}",
+        "type": "{{if(item.fieldType = 'number', 'number', if(item.fieldType = 'boolean', 'boolean', if(item.fieldType = 'date' || item.fieldType = 'dateTime', 'date', if(item.fieldType = 'array', 'array', 'text'))))}}",
+        "required": "{{item.isMandatory = true}}",
+        "help": "{{item.fieldDescription}}"
       }
     },
     "qs": {

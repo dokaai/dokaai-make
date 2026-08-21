@@ -7,6 +7,7 @@ interface RpcDefinition {
   name: string;
   label: string;
   operationId: string;
+  kind: 'options' | 'fields';
   staticPathParams?: Record<string, string>;
   staticQueryParams?: Record<string, string>;
 }
@@ -16,6 +17,7 @@ export const rpcDefinitions: readonly RpcDefinition[] = [
     name: 'listProjects',
     label: 'List Projects',
     operationId: 'getAllProjectsWithService',
+    kind: 'options',
     staticPathParams: {
       serviceId: makeConfig.serviceId,
     },
@@ -28,11 +30,13 @@ export const rpcDefinitions: readonly RpcDefinition[] = [
     name: 'listCustomerPools',
     label: 'List Customer Pools',
     operationId: 'getAllCustomerPoolInProject',
+    kind: 'options',
   },
   {
     name: 'listTargetAudienceLists',
     label: 'List Target Audience Lists',
     operationId: 'getTargetAudienceLists',
+    kind: 'options',
     staticQueryParams: {
       page: '1',
       size: '100',
@@ -42,6 +46,7 @@ export const rpcDefinitions: readonly RpcDefinition[] = [
     name: 'listNotificationHandlers',
     label: 'List Notification Handlers',
     operationId: 'getAllNotificationHandlersInProject',
+    kind: 'options',
     staticQueryParams: {
       page: '1',
       size: '100',
@@ -51,6 +56,7 @@ export const rpcDefinitions: readonly RpcDefinition[] = [
     name: 'listCustomerPoolAttributes',
     label: 'List Customer Pool Attributes',
     operationId: 'getPoolCustomerAttribute',
+    kind: 'fields',
     staticQueryParams: {
       attributeTypes: 'custom',
       page: '1',
@@ -144,12 +150,22 @@ export const buildRpcs = (document: OpenApiDocument): MakeRpc[] =>
       response: {
         limit: 500,
         iterate: '{{ifempty(body.data, body.items, body.results, body)}}',
-        output: {
-          label:
-            '{{ifempty(item.name, item.projectName, item.customerPoolName, item.title, item.label, item.key, item.id)}}',
-          value:
-            '{{ifempty(item.id, item.projectId, item.customerPoolId, item.targetAudienceListId, item.notificationHandlerId, item.fieldName, item.key)}}',
-        },
+        output:
+          definition.kind === 'fields'
+            ? {
+                name: '{{item.fieldName}}',
+                label: '{{ifempty(item.fieldDisplayName, item.fieldName)}}',
+                type:
+                  "{{if(item.fieldType = 'number', 'number', if(item.fieldType = 'boolean', 'boolean', if(item.fieldType = 'date' || item.fieldType = 'dateTime', 'date', if(item.fieldType = 'array', 'array', 'text'))))}}",
+                required: '{{item.isMandatory = true}}',
+                help: '{{item.fieldDescription}}',
+              }
+            : {
+                label:
+                  '{{ifempty(item.name, item.projectName, item.customerPoolName, item.title, item.label, item.key, item.id)}}',
+                value:
+                  '{{ifempty(item.id, item.projectId, item.customerPoolId, item.targetAudienceListId, item.notificationHandlerId, item.fieldName, item.key)}}',
+              },
       },
     };
     const qs = buildRequiredQueryDefaults(located, definition.staticQueryParams);

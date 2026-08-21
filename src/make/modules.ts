@@ -86,6 +86,11 @@ const nestedUnderProjectId = new Set([
   'notificationHandlerId',
 ]);
 
+const customerAttributeOperationIds = new Set([
+  'addCustomersToPool',
+  'updateCustomerInPool',
+]);
+
 const storeOptions = (
   options: MakeParameter['options'],
 ): MakeParameter['options'] => {
@@ -98,6 +103,7 @@ const storeOptions = (
 
 const nestDependentDynamicFields = (
   fields: MakeParameter[],
+  operationId: string,
 ): MakeParameter[] => {
   const projectField = fields.find((field) => field.name === 'projectId');
 
@@ -105,7 +111,37 @@ const nestDependentDynamicFields = (
     return fields;
   }
 
-  const nested = fields.filter((field) => nestedUnderProjectId.has(field.name));
+  const nested = fields
+    .filter((field) => nestedUnderProjectId.has(field.name))
+    .map((field) => {
+      if (
+        field.name !== 'customerPoolId' ||
+        !supportsCustomerAttributes(operationId)
+      ) {
+        return field;
+      }
+
+      const options = storeOptions(field.options);
+
+      if (
+        options === undefined ||
+        typeof options === 'string' ||
+        Array.isArray(options)
+      ) {
+        return field;
+      }
+
+      return {
+        ...field,
+        options: {
+          ...options,
+          nested: [
+            ...(Array.isArray(options.nested) ? options.nested : []),
+            'rpc://listCustomerPoolAttributes',
+          ],
+        },
+      };
+    });
 
   if (nested.length === 0) {
     return fields;
@@ -137,6 +173,9 @@ const nestDependentDynamicFields = (
       };
     });
 };
+
+const supportsCustomerAttributes = (operationId: string): boolean =>
+  customerAttributeOperationIds.has(operationId);
 
 const buildBody = (located: LocatedOperation): unknown => {
   if (located.method === 'get' || located.method === 'head') {
@@ -233,7 +272,7 @@ const buildModule = (
   ]
     .map(applyDynamicOptions)
     .sort((a, b) => fieldPriority(a) - fieldPriority(b));
-  const nestedExpect = nestDependentDynamicFields(expect);
+  const nestedExpect = nestDependentDynamicFields(expect, operationId);
 
   return {
     name: operationId,

@@ -19,7 +19,10 @@
             "label": "Customer Pool Id",
             "required": true,
             "options": {
-              "store": "rpc://listCustomerPools"
+              "store": "rpc://listCustomerPools",
+              "nested": [
+                "rpc://listCustomerPoolAttributes"
+              ]
             }
           }
         ]
