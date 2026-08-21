@@ -1,3 +1,4 @@
+import { makeConfig } from '../config.js';
 import type { MakeCommunication, MakeParameter } from './types.js';
 
 export const connectionName = 'dokaai-api';
@@ -18,7 +19,7 @@ export const buildConnectionParameters = (): MakeParameter[] => [
 ];
 
 export const buildConnectionCommunication = (): MakeCommunication => ({
-  url: '/opm/client-secrets/me',
+  url: `${makeConfig.baseUrl}/opm/client-secrets/me`,
   method: 'GET',
   headers: {
     'x-client-key': '{{parameters.clientKey}}',

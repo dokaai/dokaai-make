@@ -16,7 +16,7 @@
     }
   ],
   "communication": {
-    "url": "/opm/client-secrets/me",
+    "url": "https://api.dokaai.com/v1/dokaai/opm/client-secrets/me",
     "method": "GET",
     "headers": {
       "x-client-key": "{{parameters.clientKey}}",
