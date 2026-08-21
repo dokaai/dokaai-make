@@ -9,7 +9,7 @@ import {
 import type { LocatedOperation, OpenApiDocument } from '../openapi/types.js';
 import { buildParametersFromObjectSchema, buildParametersFromOpenApiParams } from './fields.js';
 import { connectionName } from './connection.js';
-import { kebabCase, sentenceLabel } from './names.js';
+import { sentenceLabel } from './names.js';
 import { toMakeRpcOptions } from './rpcs.js';
 import type { MakeCommunication, MakeModule, MakeParameter } from './types.js';
 
@@ -174,7 +174,7 @@ const buildModule = (
     .sort((a, b) => fieldPriority(a) - fieldPriority(b));
 
   return {
-    name: kebabCase(operationId),
+    name: operationId,
     label: sentenceLabel(located.operation.summary ?? operationId),
     description: located.operation.description ?? located.operation.summary ?? operationId,
     type,

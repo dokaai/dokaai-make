@@ -1,5 +1,5 @@
 {
-  "name": "get-all-notification-handlers-in-project",
+  "name": "getAllNotificationHandlersInProject",
   "label": "List Notification Handlers",
   "description": "Get all notification handlers in the current project.",
   "type": "search",
@@ -10,7 +10,7 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "search",

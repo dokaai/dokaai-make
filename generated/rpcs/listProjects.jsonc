@@ -1,8 +1,8 @@
 {
-  "name": "list-customer-pool-attributes",
-  "label": "List Customer Pool Attributes",
+  "name": "listProjects",
+  "label": "List Projects",
   "communication": {
-    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/{{parameters.customerPoolId}}/attributes",
+    "url": "/opm/members/me/projects/with-service/f72c921b-0ad0-4387-8ac8-9ff8467d77cc",
     "method": "GET",
     "response": {
       "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",

@@ -12,7 +12,7 @@ interface RpcDefinition {
 
 export const rpcDefinitions: readonly RpcDefinition[] = [
   {
-    name: 'list-projects',
+    name: 'listProjects',
     label: 'List Projects',
     operationId: 'getAllProjectsWithService',
     staticPathParams: {
@@ -20,22 +20,22 @@ export const rpcDefinitions: readonly RpcDefinition[] = [
     },
   },
   {
-    name: 'list-customer-pools',
+    name: 'listCustomerPools',
     label: 'List Customer Pools',
     operationId: 'getAllCustomerPoolInProject',
   },
   {
-    name: 'list-target-audience-lists',
+    name: 'listTargetAudienceLists',
     label: 'List Target Audience Lists',
     operationId: 'getTargetAudienceLists',
   },
   {
-    name: 'list-notification-handlers',
+    name: 'listNotificationHandlers',
     label: 'List Notification Handlers',
     operationId: 'getAllNotificationHandlersInProject',
   },
   {
-    name: 'list-customer-pool-attributes',
+    name: 'listCustomerPoolAttributes',
     label: 'List Customer Pool Attributes',
     operationId: 'getPoolCustomerAttribute',
   },
@@ -80,19 +80,19 @@ export const buildRpcs = (document: OpenApiDocument): MakeRpc[] =>
 
 export const rpcForField = (fieldName: string): string | undefined => {
   if (fieldName === 'projectId') {
-    return 'list-projects';
+    return 'listProjects';
   }
 
   if (fieldName === 'customerPoolId') {
-    return 'list-customer-pools';
+    return 'listCustomerPools';
   }
 
   if (fieldName === 'targetAudienceListId' || fieldName === 'filterOutTALId') {
-    return 'list-target-audience-lists';
+    return 'listTargetAudienceLists';
   }
 
   if (fieldName === 'notificationHandlerId') {
-    return 'list-notification-handlers';
+    return 'listNotificationHandlers';
   }
 
   return undefined;

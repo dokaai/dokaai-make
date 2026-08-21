@@ -1,5 +1,5 @@
 {
-  "name": "add-customer-custom-attribute",
+  "name": "addCustomerCustomAttribute",
   "label": "Create Customer Custom Attribute",
   "description": "Create a customer custom attribute.",
   "type": "action",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
       "required": true,
-      "options": "rpc://list-customer-pools"
+      "options": "rpc://listCustomerPools"
     },
     {
       "name": "customAttributes",

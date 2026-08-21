@@ -1,5 +1,5 @@
 {
-  "name": "get-notification-handler",
+  "name": "getNotificationHandler",
   "label": "Get Notification Handler",
   "description": "Get a notification handler by id.",
   "type": "search",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "notificationHandlerId",
       "type": "select",
       "label": "Notification Handler Id",
       "required": true,
-      "options": "rpc://list-notification-handlers"
+      "options": "rpc://listNotificationHandlers"
     }
   ],
   "interface": [],

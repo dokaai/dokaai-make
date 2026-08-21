@@ -10,7 +10,8 @@ by selecting OpenAPI `operationId`s, not by hand-writing one-off Make modules.
 
 - Make zone: `https://eu1.make.com`
 - Visibility: private
-- DokaAI app name: `dokaai`
+- Default DokaAI app name: `dokaai`
+- Existing Make UI-created app name can be supplied with `MAKE_APP_NAME`.
 - DokaAI project dropdown service ID:
   `f72c921b-0ad0-4387-8ac8-9ff8467d77cc`
 
@@ -29,6 +30,7 @@ Generated Make app sections are written to `generated/`.
 ```text
 MAKE_API_TOKEN=
 MAKE_ZONE_URL=https://eu1.make.com
+MAKE_APP_NAME=dokaai-app-76ss12
 DOKAAI_SERVICE_ID=f72c921b-0ad0-4387-8ac8-9ff8467d77cc
 ```
 
@@ -58,8 +60,8 @@ Searches:
 
 ## Dynamic RPCs
 
-- `list-projects`
-- `list-customer-pools`
-- `list-target-audience-lists`
-- `list-notification-handlers`
-- `list-customer-pool-attributes`
+- `listProjects`
+- `listCustomerPools`
+- `listTargetAudienceLists`
+- `listNotificationHandlers`
+- `listCustomerPoolAttributes`

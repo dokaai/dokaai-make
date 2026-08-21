@@ -1,8 +1,8 @@
 {
-  "name": "list-notification-handlers",
-  "label": "List Notification Handlers",
+  "name": "listTargetAudienceLists",
+  "label": "List Target Audience Lists",
   "communication": {
-    "url": "/nudge/projects/{{parameters.projectId}}/notification-handlers/",
+    "url": "/nudge/projects/{{parameters.projectId}}/target-audience-lists/",
     "method": "GET",
     "response": {
       "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",

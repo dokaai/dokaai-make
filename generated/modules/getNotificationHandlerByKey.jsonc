@@ -1,5 +1,5 @@
 {
-  "name": "get-notification-handler-by-key",
+  "name": "getNotificationHandlerByKey",
   "label": "Get Notification Handler by Key",
   "description": "Get a notification handler by its handler key.",
   "type": "search",
@@ -10,7 +10,7 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "handlerKey",

@@ -1,5 +1,5 @@
 {
-  "name": "remove-customer-from-pool",
+  "name": "removeCustomerFromPool",
   "label": "Remove Customer From Pool",
   "description": "Remove a customer from a pool.",
   "type": "action",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
       "required": true,
-      "options": "rpc://list-customer-pools"
+      "options": "rpc://listCustomerPools"
     },
     {
       "name": "customerId",

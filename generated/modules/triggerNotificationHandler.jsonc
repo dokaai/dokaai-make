@@ -1,5 +1,5 @@
 {
-  "name": "trigger-notification-handler",
+  "name": "triggerNotificationHandler",
   "label": "Trigger Notification Handler",
   "description": "Trigger a notification handler.",
   "type": "action",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "notificationHandlerId",
       "type": "select",
       "label": "Notification Handler Id",
       "required": true,
-      "options": "rpc://list-notification-handlers"
+      "options": "rpc://listNotificationHandlers"
     },
     {
       "name": "mode",

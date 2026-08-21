@@ -1,5 +1,5 @@
 {
-  "name": "associate-customer-to-target-audience-list",
+  "name": "associateCustomerToTargetAudienceList",
   "label": "Associate Customers to Target Audience List",
   "description": "Add customers to a target audience list.",
   "type": "action",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "targetAudienceListId",
       "type": "select",
       "label": "Target Audience List Id",
       "required": true,
-      "options": "rpc://list-target-audience-lists"
+      "options": "rpc://listTargetAudienceLists"
     },
     {
       "name": "customerIds",

@@ -1,5 +1,5 @@
 {
-  "name": "add-customers-to-pool",
+  "name": "addCustomersToPool",
   "label": "Add Customers to Pool",
   "description": "Add customers to a customer pool.",
   "type": "action",
@@ -10,21 +10,21 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
       "required": true,
-      "options": "rpc://list-customer-pools"
+      "options": "rpc://listCustomerPools"
     },
     {
       "name": "targetAudienceListId",
       "type": "select",
       "label": "Target Audience List Id",
       "required": false,
-      "options": "rpc://list-target-audience-lists"
+      "options": "rpc://listTargetAudienceLists"
     },
     {
       "name": "customerData",
@@ -111,7 +111,7 @@
           "type": "select",
           "label": "Project Id",
           "required": false,
-          "options": "rpc://list-projects"
+          "options": "rpc://listProjects"
         },
         {
           "name": "pinCode",

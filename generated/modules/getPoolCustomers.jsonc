@@ -1,5 +1,5 @@
 {
-  "name": "get-pool-customers",
+  "name": "getPoolCustomers",
   "label": "List Pool Customers",
   "description": "Get customers in a pool.",
   "type": "search",
@@ -10,21 +10,21 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
       "required": true,
-      "options": "rpc://list-customer-pools"
+      "options": "rpc://listCustomerPools"
     },
     {
       "name": "filterOutTALId",
       "type": "select",
       "label": "Filter Out TALId",
       "required": false,
-      "options": "rpc://list-target-audience-lists"
+      "options": "rpc://listTargetAudienceLists"
     },
     {
       "name": "search",

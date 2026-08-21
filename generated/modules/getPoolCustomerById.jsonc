@@ -1,5 +1,5 @@
 {
-  "name": "get-pool-customer-by-id",
+  "name": "getPoolCustomerById",
   "label": "Get Pool Customer by Id",
   "description": "Get a customer in a pool by id.",
   "type": "search",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "customerPoolId",
       "type": "select",
       "label": "Customer Pool Id",
       "required": true,
-      "options": "rpc://list-customer-pools"
+      "options": "rpc://listCustomerPools"
     },
     {
       "name": "customerId",

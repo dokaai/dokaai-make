@@ -117,6 +117,22 @@ const request = async <T>(
   return JSON.parse(text) as T;
 };
 
+const tryRequest = async (
+  method: string,
+  path: string,
+  body?: unknown,
+): Promise<{ ok: true } | { ok: false; message: string }> => {
+  try {
+    await request(method, path, body);
+    return { ok: true };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error instanceof Error ? error.message : String(error),
+    };
+  }
+};
+
 const createOrPatchApp = async (): Promise<void> => {
   const path = `/sdk/apps/${appName}/${appVersion}`;
   const existing = await request('GET', path, undefined, { allowNotFound: true });
@@ -127,15 +143,26 @@ const createOrPatchApp = async (): Promise<void> => {
     });
     console.log(`Created app ${appName} v${appVersion}.`);
   } else {
-    await request('PATCH', path, app.app);
+    await request('PATCH', path, {
+      label: app.app.label,
+      description: app.app.description,
+      language: app.app.language,
+    });
     console.log(`Updated app ${appName} v${appVersion}.`);
   }
 
-  await request('POST', `/sdk/apps/${appName}/${appVersion}/private`);
+  const visibility = await tryRequest(
+    'POST',
+    `/sdk/apps/${appName}/${appVersion}/private`,
+  );
+
+  if (!visibility.ok) {
+    console.warn(`Skipped private visibility update: ${visibility.message}`);
+  }
 };
 
 const setBase = async (): Promise<void> => {
-  await request('POST', `/sdk/apps/${appName}/${appVersion}/base`, app.base);
+  await request('PATCH', `/sdk/apps/${appName}/${appVersion}/base`, app.base);
   console.log('Pushed Base.');
 };
 
@@ -148,7 +175,7 @@ const createOrPatchConnection = async (): Promise<string> => {
       connection.name === app.connection.name ||
       connection.label === app.connection.label,
   );
-  const connectionName = existing?.name ?? app.connection.name;
+  let connectionName = existing?.name ?? app.connection.name;
 
   if (existing === undefined) {
     const created = await request<{
@@ -159,7 +186,8 @@ const createOrPatchConnection = async (): Promise<string> => {
       type: 'other',
     });
 
-    console.log(`Created connection ${created?.appConnection?.name ?? connectionName}.`);
+    connectionName = created?.appConnection?.name ?? connectionName;
+    console.log(`Created connection ${connectionName}.`);
   } else {
     await request('PATCH', `/sdk/apps/connections/${connectionName}`, {
       label: app.connection.label,
@@ -209,7 +237,12 @@ const createOrPatchModule = async (
     await request(
       'PATCH',
       `/sdk/apps/${appName}/${appVersion}/modules/${module.name}`,
-      moduleBody,
+      {
+        typeId: moduleBody.typeId,
+        label: moduleBody.label,
+        description: moduleBody.description,
+        connection: moduleBody.connection,
+      },
     );
     console.log(`Updated module ${module.name}.`);
   }
@@ -254,7 +287,10 @@ const createOrPatchRpc = async (
     await request(
       'PATCH',
       `/sdk/apps/${appName}/${appVersion}/rpcs/${rpc.name}`,
-      rpcBody,
+      {
+        label: rpcBody.label,
+        connection: rpcBody.connection,
+      },
     );
     console.log(`Updated RPC ${rpc.name}.`);
   }

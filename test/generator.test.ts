@@ -7,7 +7,7 @@ import { readOpenApiDocument } from '../src/scripts/read-openapi.js';
 const app = buildMakeApp(readOpenApiDocument());
 
 test('uses the configured Make app identity', () => {
-  assert.equal(app.app.name, 'dokaai');
+  assert.equal(app.app.name, process.env.MAKE_APP_NAME ?? 'dokaai');
   assert.equal(app.app.visibility, 'private');
 });
 
@@ -26,7 +26,7 @@ test('uses DokaAI client-key headers and sanitizes them', () => {
 });
 
 test('injects the confirmed service ID into the projects RPC', () => {
-  const projectsRpc = app.rpcs.find((rpc) => rpc.name === 'list-projects');
+  const projectsRpc = app.rpcs.find((rpc) => rpc.name === 'listProjects');
 
   assert.ok(projectsRpc);
   const url = projectsRpc.communication.url;
@@ -36,7 +36,7 @@ test('injects the confirmed service ID into the projects RPC', () => {
 
 test('preserves PATCH for DokaAI patch operations', () => {
   const module = app.modules.find(
-    (candidate) => candidate.name === 'delete-customer-from-target-audience-list',
+    (candidate) => candidate.name === 'deleteCustomerFromTargetAudienceList',
   );
 
   assert.ok(module);

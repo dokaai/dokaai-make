@@ -1,7 +1,6 @@
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { buildMakeApp } from '../index.js';
-import { kebabCase } from '../make/names.js';
 import { readOpenApiDocument, repositoryRoot } from './read-openapi.js';
 
 const writeJson = (path: string, value: unknown): void => {
@@ -28,7 +27,7 @@ for (const module of app.modules) {
 }
 
 for (const rpc of app.rpcs) {
-  writeJson(resolve(outputRoot, 'rpcs', `${kebabCase(rpc.name)}.jsonc`), rpc);
+  writeJson(resolve(outputRoot, 'rpcs', `${rpc.name}.jsonc`), rpc);
 }
 
 console.log(

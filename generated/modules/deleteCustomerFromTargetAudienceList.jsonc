@@ -1,5 +1,5 @@
 {
-  "name": "delete-customer-from-target-audience-list",
+  "name": "deleteCustomerFromTargetAudienceList",
   "label": "Delete Customer From Target Audience List",
   "description": "Remove a customer from a target audience list.",
   "type": "action",
@@ -10,14 +10,14 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://list-projects"
+      "options": "rpc://listProjects"
     },
     {
       "name": "targetAudienceListId",
       "type": "select",
       "label": "Target Audience List Id",
       "required": true,
-      "options": "rpc://list-target-audience-lists"
+      "options": "rpc://listTargetAudienceLists"
     },
     {
       "name": "customerId",

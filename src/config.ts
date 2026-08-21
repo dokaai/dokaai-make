@@ -1,5 +1,5 @@
 export const makeConfig = {
-  appName: 'dokaai',
+  appName: process.env.MAKE_APP_NAME ?? 'dokaai',
   appLabel: 'DokaAI',
   appVersion: 1,
   appDescription:
