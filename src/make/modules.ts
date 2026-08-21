@@ -67,7 +67,9 @@ const applyDynamicOptions = (field: MakeParameter): MakeParameter => {
 
   if (options !== undefined) {
     next.type = 'select';
-    next.options = options;
+    next.options = {
+      store: options,
+    };
   }
 
   if (field.spec !== undefined) {
@@ -75,6 +77,65 @@ const applyDynamicOptions = (field: MakeParameter): MakeParameter => {
   }
 
   return next;
+};
+
+const nestedUnderProjectId = new Set([
+  'customerPoolId',
+  'targetAudienceListId',
+  'filterOutTALId',
+  'notificationHandlerId',
+]);
+
+const storeOptions = (
+  options: MakeParameter['options'],
+): MakeParameter['options'] => {
+  if (typeof options === 'string' || Array.isArray(options)) {
+    return { store: options };
+  }
+
+  return options;
+};
+
+const nestDependentDynamicFields = (
+  fields: MakeParameter[],
+): MakeParameter[] => {
+  const projectField = fields.find((field) => field.name === 'projectId');
+
+  if (projectField === undefined) {
+    return fields;
+  }
+
+  const nested = fields.filter((field) => nestedUnderProjectId.has(field.name));
+
+  if (nested.length === 0) {
+    return fields;
+  }
+
+  return fields
+    .filter((field) => !nestedUnderProjectId.has(field.name))
+    .map((field) => {
+      if (field.name !== 'projectId') {
+        return field;
+      }
+
+      const options = storeOptions(field.options);
+
+      if (
+        options === undefined ||
+        typeof options === 'string' ||
+        Array.isArray(options)
+      ) {
+        return field;
+      }
+
+      return {
+        ...field,
+        options: {
+          ...options,
+          nested,
+        },
+      };
+    });
 };
 
 const buildBody = (located: LocatedOperation): unknown => {
@@ -172,6 +233,7 @@ const buildModule = (
   ]
     .map(applyDynamicOptions)
     .sort((a, b) => fieldPriority(a) - fieldPriority(b));
+  const nestedExpect = nestDependentDynamicFields(expect);
 
   return {
     name: operationId,
@@ -179,7 +241,7 @@ const buildModule = (
     description: located.operation.description ?? located.operation.summary ?? operationId,
     type,
     connection: connectionName,
-    expect,
+    expect: nestedExpect,
     interface: [],
     communication: buildCommunication(located, type),
   };

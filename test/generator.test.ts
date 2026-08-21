@@ -62,3 +62,26 @@ test('matches n8n and Zapier dynamic loader query policies', () => {
     size: '100',
   });
 });
+
+test('nests dependent Make RPC fields under projectId', () => {
+  const module = app.modules.find(
+    (candidate) => candidate.name === 'getPoolCustomers',
+  );
+
+  assert.ok(module);
+  const projectField = module.expect.find((field) => field.name === 'projectId');
+  const customerPoolAtRoot = module.expect.find(
+    (field) => field.name === 'customerPoolId',
+  );
+
+  assert.ok(projectField);
+  assert.equal(customerPoolAtRoot, undefined);
+  assert.equal(
+    typeof projectField.options === 'object' &&
+      !Array.isArray(projectField.options) &&
+      projectField.options?.nested?.some(
+        (field) => field.name === 'customerPoolId',
+      ),
+    true,
+  );
+});

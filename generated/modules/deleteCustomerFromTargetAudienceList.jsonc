@@ -10,14 +10,20 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://listProjects"
-    },
-    {
-      "name": "targetAudienceListId",
-      "type": "select",
-      "label": "Target Audience List Id",
-      "required": true,
-      "options": "rpc://listTargetAudienceLists"
+      "options": {
+        "store": "rpc://listProjects",
+        "nested": [
+          {
+            "name": "targetAudienceListId",
+            "type": "select",
+            "label": "Target Audience List Id",
+            "required": true,
+            "options": {
+              "store": "rpc://listTargetAudienceLists"
+            }
+          }
+        ]
+      }
     },
     {
       "name": "customerId",

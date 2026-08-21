@@ -14,6 +14,11 @@ export interface MakeOption {
   value: string;
 }
 
+export interface MakeOptionsStore {
+  store: MakeOption[] | string;
+  nested?: MakeParameter[];
+}
+
 export interface MakeParameter {
   name: string;
   type: MakeParameterType;
@@ -21,7 +26,7 @@ export interface MakeParameter {
   required?: boolean;
   help?: string;
   spec?: MakeParameter[];
-  options?: MakeOption[] | string;
+  options?: MakeOption[] | string | MakeOptionsStore;
   default?: unknown;
 }
 

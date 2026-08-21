@@ -10,21 +10,29 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://listProjects"
-    },
-    {
-      "name": "customerPoolId",
-      "type": "select",
-      "label": "Customer Pool Id",
-      "required": true,
-      "options": "rpc://listCustomerPools"
-    },
-    {
-      "name": "filterOutTALId",
-      "type": "select",
-      "label": "Filter Out TALId",
-      "required": false,
-      "options": "rpc://listTargetAudienceLists"
+      "options": {
+        "store": "rpc://listProjects",
+        "nested": [
+          {
+            "name": "customerPoolId",
+            "type": "select",
+            "label": "Customer Pool Id",
+            "required": true,
+            "options": {
+              "store": "rpc://listCustomerPools"
+            }
+          },
+          {
+            "name": "filterOutTALId",
+            "type": "select",
+            "label": "Filter Out TALId",
+            "required": false,
+            "options": {
+              "store": "rpc://listTargetAudienceLists"
+            }
+          }
+        ]
+      }
     },
     {
       "name": "search",

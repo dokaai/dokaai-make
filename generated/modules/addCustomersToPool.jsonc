@@ -10,21 +10,29 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://listProjects"
-    },
-    {
-      "name": "customerPoolId",
-      "type": "select",
-      "label": "Customer Pool Id",
-      "required": true,
-      "options": "rpc://listCustomerPools"
-    },
-    {
-      "name": "targetAudienceListId",
-      "type": "select",
-      "label": "Target Audience List Id",
-      "required": false,
-      "options": "rpc://listTargetAudienceLists"
+      "options": {
+        "store": "rpc://listProjects",
+        "nested": [
+          {
+            "name": "customerPoolId",
+            "type": "select",
+            "label": "Customer Pool Id",
+            "required": true,
+            "options": {
+              "store": "rpc://listCustomerPools"
+            }
+          },
+          {
+            "name": "targetAudienceListId",
+            "type": "select",
+            "label": "Target Audience List Id",
+            "required": false,
+            "options": {
+              "store": "rpc://listTargetAudienceLists"
+            }
+          }
+        ]
+      }
     },
     {
       "name": "customerData",
@@ -111,7 +119,9 @@
           "type": "select",
           "label": "Project Id",
           "required": false,
-          "options": "rpc://listProjects"
+          "options": {
+            "store": "rpc://listProjects"
+          }
         },
         {
           "name": "pinCode",

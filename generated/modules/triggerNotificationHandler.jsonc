@@ -10,14 +10,20 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://listProjects"
-    },
-    {
-      "name": "notificationHandlerId",
-      "type": "select",
-      "label": "Notification Handler Id",
-      "required": true,
-      "options": "rpc://listNotificationHandlers"
+      "options": {
+        "store": "rpc://listProjects",
+        "nested": [
+          {
+            "name": "notificationHandlerId",
+            "type": "select",
+            "label": "Notification Handler Id",
+            "required": true,
+            "options": {
+              "store": "rpc://listNotificationHandlers"
+            }
+          }
+        ]
+      }
     },
     {
       "name": "mode",

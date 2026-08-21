@@ -10,7 +10,9 @@
       "type": "select",
       "label": "Project Id",
       "required": true,
-      "options": "rpc://listProjects"
+      "options": {
+        "store": "rpc://listProjects"
+      }
     },
     {
       "name": "search",
