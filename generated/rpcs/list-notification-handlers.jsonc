@@ -1,0 +1,12 @@
+{
+  "name": "list-notification-handlers",
+  "label": "List Notification Handlers",
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/notification-handlers/",
+    "method": "GET",
+    "response": {
+      "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
+      "output": "{{item}}"
+    }
+  }
+}

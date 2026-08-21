@@ -1,0 +1,12 @@
+{
+  "name": "list-projects",
+  "label": "List Projects",
+  "communication": {
+    "url": "/opm/members/me/projects/with-service/f72c921b-0ad0-4387-8ac8-9ff8467d77cc",
+    "method": "GET",
+    "response": {
+      "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
+      "output": "{{item}}"
+    }
+  }
+}

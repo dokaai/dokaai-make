@@ -1,0 +1,61 @@
+{
+  "name": "get-pool-customer-by-id",
+  "label": "Get Pool Customer by Id",
+  "description": "Get a customer in a pool by id.",
+  "type": "search",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "customerId",
+      "type": "text",
+      "label": "Customer Id",
+      "required": true
+    },
+    {
+      "name": "customerPoolId",
+      "type": "select",
+      "label": "Customer Pool Id",
+      "required": true,
+      "options": "rpc://list-customer-pools"
+    },
+    {
+      "name": "attributeTypes",
+      "type": "select",
+      "label": "Attribute Types",
+      "required": true,
+      "options": [
+        {
+          "label": "All",
+          "value": "all"
+        },
+        {
+          "label": "Custom",
+          "value": "custom"
+        },
+        {
+          "label": "App",
+          "value": "app"
+        }
+      ]
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/{{parameters.customerPoolId}}/customers/{{parameters.customerId}}",
+    "method": "GET",
+    "response": {
+      "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
+      "output": "{{item}}"
+    },
+    "qs": {
+      "attributeTypes": "{{parameters.attributeTypes}}"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "baseUrl": "https://api.dokaai.com/v1/dokaai",
+  "headers": {
+    "x-client-key": "{{connection.clientKey}}",
+    "x-client-secret": "{{connection.clientSecret}}"
+  },
+  "response": {
+    "error": {
+      "message": "[{{statusCode}}] {{ifempty(body.message, body.error.message, body.error, body)}}"
+    }
+  },
+  "log": {
+    "sanitize": [
+      "request.headers.x-client-key",
+      "request.headers.x-client-secret"
+    ]
+  }
+}

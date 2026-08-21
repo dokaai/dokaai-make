@@ -1,0 +1,48 @@
+{
+  "name": "get-all-notification-handlers-in-project",
+  "label": "List Notification Handlers",
+  "description": "Get all notification handlers in the current project.",
+  "type": "search",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "search",
+      "type": "text",
+      "label": "Search",
+      "required": false
+    },
+    {
+      "name": "page",
+      "type": "text",
+      "label": "Page",
+      "required": true
+    },
+    {
+      "name": "size",
+      "type": "text",
+      "label": "Size",
+      "required": true
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/notification-handlers/",
+    "method": "GET",
+    "response": {
+      "iterate": "{{body.data}}",
+      "output": "{{item}}"
+    },
+    "qs": {
+      "search": "{{parameters.search}}",
+      "page": "{{parameters.page}}",
+      "size": "{{parameters.size}}"
+    }
+  }
+}

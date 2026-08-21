@@ -1,0 +1,88 @@
+{
+  "name": "get-pool-customers",
+  "label": "List Pool Customers",
+  "description": "Get customers in a pool.",
+  "type": "search",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "customerPoolId",
+      "type": "select",
+      "label": "Customer Pool Id",
+      "required": true,
+      "options": "rpc://list-customer-pools"
+    },
+    {
+      "name": "search",
+      "type": "text",
+      "label": "Search",
+      "required": false
+    },
+    {
+      "name": "searchField",
+      "type": "select",
+      "label": "Search Field",
+      "required": false,
+      "options": [
+        {
+          "label": "Unique Customer Id",
+          "value": "uniqueCustomerId"
+        },
+        {
+          "label": "Name",
+          "value": "name"
+        },
+        {
+          "label": "Email Id",
+          "value": "emailId"
+        },
+        {
+          "label": "Phone Number",
+          "value": "phoneNumber"
+        }
+      ]
+    },
+    {
+      "name": "filterOutTALId",
+      "type": "select",
+      "label": "Filter Out TALId",
+      "required": false,
+      "options": "rpc://list-target-audience-lists"
+    },
+    {
+      "name": "page",
+      "type": "text",
+      "label": "Page",
+      "required": true
+    },
+    {
+      "name": "size",
+      "type": "text",
+      "label": "Size",
+      "required": true
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/{{parameters.customerPoolId}}/customers",
+    "method": "GET",
+    "response": {
+      "iterate": "{{body.data}}",
+      "output": "{{item}}"
+    },
+    "qs": {
+      "search": "{{parameters.search}}",
+      "searchField": "{{parameters.searchField}}",
+      "filterOutTALId": "{{parameters.filterOutTALId}}",
+      "page": "{{parameters.page}}",
+      "size": "{{parameters.size}}"
+    }
+  }
+}

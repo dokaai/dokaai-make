@@ -1,0 +1,39 @@
+{
+  "name": "delete-customer-from-target-audience-list",
+  "label": "Delete Customer From Target Audience List",
+  "description": "Remove a customer from a target audience list.",
+  "type": "action",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "targetAudienceListId",
+      "type": "select",
+      "label": "Target Audience List Id",
+      "required": true,
+      "options": "rpc://list-target-audience-lists"
+    },
+    {
+      "name": "customerId",
+      "type": "text",
+      "label": "Customer Id",
+      "required": true
+    },
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/target-audience-lists/{{parameters.targetAudienceListId}}/customer/{{parameters.customerId}}",
+    "method": "PATCH",
+    "response": {
+      "output": "{{body}}"
+    },
+    "body": "{{omit(parameters, 'targetAudienceListId', 'customerId', 'projectId')}}",
+    "type": "json"
+  }
+}

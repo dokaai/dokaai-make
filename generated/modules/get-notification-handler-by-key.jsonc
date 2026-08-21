@@ -1,0 +1,31 @@
+{
+  "name": "get-notification-handler-by-key",
+  "label": "Get Notification Handler by Key",
+  "description": "Get a notification handler by its handler key.",
+  "type": "search",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "handlerKey",
+      "type": "text",
+      "label": "Handler Key",
+      "required": true
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/notification-handlers/key/{{parameters.handlerKey}}",
+    "method": "GET",
+    "response": {
+      "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
+      "output": "{{item}}"
+    }
+  }
+}

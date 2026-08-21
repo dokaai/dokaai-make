@@ -1,0 +1,39 @@
+{
+  "name": "remove-customer-from-pool",
+  "label": "Remove Customer From Pool",
+  "description": "Remove a customer from a pool.",
+  "type": "action",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "customerPoolId",
+      "type": "select",
+      "label": "Customer Pool Id",
+      "required": true,
+      "options": "rpc://list-customer-pools"
+    },
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "customerId",
+      "type": "text",
+      "label": "Customer Id",
+      "required": true
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/{{parameters.customerPoolId}}/customer/{{parameters.customerId}}/status",
+    "method": "PATCH",
+    "response": {
+      "output": "{{body}}"
+    },
+    "body": "{{omit(parameters, 'customerPoolId', 'projectId', 'customerId')}}",
+    "type": "json"
+  }
+}

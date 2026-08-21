@@ -1,0 +1,55 @@
+{
+  "name": "trigger-notification-handler",
+  "label": "Trigger Notification Handler",
+  "description": "Trigger a notification handler.",
+  "type": "action",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "notificationHandlerId",
+      "type": "select",
+      "label": "Notification Handler Id",
+      "required": true,
+      "options": "rpc://list-notification-handlers"
+    },
+    {
+      "name": "mode",
+      "type": "select",
+      "label": "Mode",
+      "required": true,
+      "options": [
+        {
+          "label": "Live",
+          "value": "live"
+        },
+        {
+          "label": "Test",
+          "value": "test"
+        }
+      ]
+    },
+    {
+      "name": "idempotencyKey",
+      "type": "text",
+      "label": "Idempotency Key",
+      "required": false
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/notification-handlers/{{parameters.notificationHandlerId}}/trigger",
+    "method": "POST",
+    "response": {
+      "output": "{{body}}"
+    },
+    "body": "{{omit(parameters, 'projectId', 'notificationHandlerId')}}",
+    "type": "json"
+  }
+}

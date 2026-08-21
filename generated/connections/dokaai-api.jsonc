@@ -1,0 +1,35 @@
+{
+  "name": "dokaai-api",
+  "label": "DokaAI API",
+  "parameters": [
+    {
+      "name": "clientKey",
+      "type": "password",
+      "label": "Client Key",
+      "required": true
+    },
+    {
+      "name": "clientSecret",
+      "type": "password",
+      "label": "Client Secret",
+      "required": true
+    }
+  ],
+  "communication": {
+    "url": "/opm/client-secrets/me",
+    "method": "GET",
+    "headers": {
+      "x-client-key": "{{parameters.clientKey}}",
+      "x-client-secret": "{{parameters.clientSecret}}"
+    },
+    "response": {
+      "output": "{{body}}"
+    },
+    "log": {
+      "sanitize": [
+        "request.headers.x-client-key",
+        "request.headers.x-client-secret"
+      ]
+    }
+  }
+}

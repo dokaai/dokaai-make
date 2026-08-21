@@ -1,0 +1,125 @@
+{
+  "name": "update-customer-in-pool",
+  "label": "Update Customer in Pool",
+  "description": "Update a customer in a pool.",
+  "type": "action",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "customerPoolId",
+      "type": "select",
+      "label": "Customer Pool Id",
+      "required": true,
+      "options": "rpc://list-customer-pools"
+    },
+    {
+      "name": "customerId",
+      "type": "text",
+      "label": "Customer Id",
+      "required": true
+    },
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "name",
+      "type": "text",
+      "label": "Name",
+      "required": false
+    },
+    {
+      "name": "countryIsoCode",
+      "type": "text",
+      "label": "Country Iso Code",
+      "required": false
+    },
+    {
+      "name": "pushContactPoints",
+      "type": "array",
+      "label": "Push Contact Points",
+      "required": false,
+      "spec": [
+        {
+          "name": "provider",
+          "type": "select",
+          "label": "Provider",
+          "required": true,
+          "options": [
+            {
+              "label": "Firebase Cloud Messaging",
+              "value": "firebaseCloudMessaging"
+            },
+            {
+              "label": "Apns",
+              "value": "apns"
+            },
+            {
+              "label": "Expo",
+              "value": "expo"
+            }
+          ]
+        },
+        {
+          "name": "token",
+          "type": "text",
+          "label": "Token",
+          "required": true
+        },
+        {
+          "name": "platform",
+          "type": "select",
+          "label": "Platform",
+          "required": false,
+          "options": [
+            {
+              "label": "Ios",
+              "value": "ios"
+            },
+            {
+              "label": "Android",
+              "value": "android"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "emailId",
+      "type": "text",
+      "label": "Email Id",
+      "required": false
+    },
+    {
+      "name": "phoneNumber",
+      "type": "text",
+      "label": "Phone Number",
+      "required": false
+    },
+    {
+      "name": "pinCode",
+      "type": "text",
+      "label": "Pin Code",
+      "required": false
+    },
+    {
+      "name": "timeZone",
+      "type": "text",
+      "label": "Time Zone",
+      "required": false
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/{{parameters.customerPoolId}}/customers/{{parameters.customerId}}",
+    "method": "PUT",
+    "response": {
+      "output": "{{body}}"
+    },
+    "body": "{{omit(parameters, 'customerPoolId', 'customerId', 'projectId')}}",
+    "type": "json"
+  }
+}

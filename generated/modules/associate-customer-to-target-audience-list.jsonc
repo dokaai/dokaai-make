@@ -1,0 +1,47 @@
+{
+  "name": "associate-customer-to-target-audience-list",
+  "label": "Associate Customers to Target Audience List",
+  "description": "Add customers to a target audience list.",
+  "type": "action",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "targetAudienceListId",
+      "type": "select",
+      "label": "Target Audience List Id",
+      "required": true,
+      "options": "rpc://list-target-audience-lists"
+    },
+    {
+      "name": "customerIds",
+      "type": "array",
+      "label": "Customer Ids",
+      "required": true,
+      "spec": [
+        {
+          "name": "value",
+          "type": "text",
+          "label": "Value",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/target-audience-lists/{{parameters.targetAudienceListId}}/customers",
+    "method": "POST",
+    "response": {
+      "output": "{{body}}"
+    },
+    "body": "{{omit(parameters, 'projectId', 'targetAudienceListId')}}",
+    "type": "json"
+  }
+}

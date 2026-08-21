@@ -1,0 +1,87 @@
+{
+  "name": "add-customer-custom-attribute",
+  "label": "Create Customer Custom Attribute",
+  "description": "Create a customer custom attribute.",
+  "type": "action",
+  "connection": "dokaai-api",
+  "expect": [
+    {
+      "name": "customerPoolId",
+      "type": "select",
+      "label": "Customer Pool Id",
+      "required": true,
+      "options": "rpc://list-customer-pools"
+    },
+    {
+      "name": "projectId",
+      "type": "select",
+      "label": "Project Id",
+      "required": true,
+      "options": "rpc://list-projects"
+    },
+    {
+      "name": "customAttributes",
+      "type": "array",
+      "label": "Custom Attributes",
+      "required": true,
+      "spec": [
+        {
+          "name": "fieldName",
+          "type": "text",
+          "label": "Field Name",
+          "required": true
+        },
+        {
+          "name": "fieldDisplayName",
+          "type": "text",
+          "label": "Field Display Name",
+          "required": true
+        },
+        {
+          "name": "fieldDescription",
+          "type": "text",
+          "label": "Field Description",
+          "required": false
+        },
+        {
+          "name": "fieldType",
+          "type": "select",
+          "label": "Field Type",
+          "required": true,
+          "options": [
+            {
+              "label": "String",
+              "value": "string"
+            },
+            {
+              "label": "Number",
+              "value": "number"
+            },
+            {
+              "label": "Boolean",
+              "value": "boolean"
+            },
+            {
+              "label": "Date",
+              "value": "date"
+            },
+            {
+              "label": "Date Time",
+              "value": "dateTime"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interface": [],
+  "communication": {
+    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/{{parameters.customerPoolId}}/custom-attributes",
+    "method": "POST",
+    "response": {
+      "output": "{{body}}"
+    },
+    "body": "{{omit(parameters, 'customerPoolId', 'projectId')}}",
+    "type": "json"
+  }
+}

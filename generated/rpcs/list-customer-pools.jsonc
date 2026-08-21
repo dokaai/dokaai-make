@@ -1,0 +1,12 @@
+{
+  "name": "list-customer-pools",
+  "label": "List Customer Pools",
+  "communication": {
+    "url": "/customer/projects/{{parameters.projectId}}/customer-pools/",
+    "method": "GET",
+    "response": {
+      "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
+      "output": "{{item}}"
+    }
+  }
+}

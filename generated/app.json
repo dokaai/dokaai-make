@@ -1,0 +1,8 @@
+{
+  "name": "dokaai",
+  "label": "DokaAI",
+  "version": 1,
+  "description": "Customer engagement, notification, and audience automation for DokaAI.",
+  "language": "en",
+  "visibility": "private"
+}

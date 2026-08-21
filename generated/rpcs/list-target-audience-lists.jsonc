@@ -1,0 +1,12 @@
+{
+  "name": "list-target-audience-lists",
+  "label": "List Target Audience Lists",
+  "communication": {
+    "url": "/nudge/projects/{{parameters.projectId}}/target-audience-lists/",
+    "method": "GET",
+    "response": {
+      "iterate": "{{ifempty(body.data, body.items, body.results, body)}}",
+      "output": "{{item}}"
+    }
+  }
+}
