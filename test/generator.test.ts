@@ -42,3 +42,23 @@ test('preserves PATCH for DokaAI patch operations', () => {
   assert.ok(module);
   assert.equal(module.communication.method, 'PATCH');
 });
+
+test('matches n8n and Zapier dynamic loader query policies', () => {
+  const projectsRpc = app.rpcs.find((rpc) => rpc.name === 'listProjects');
+  const attributesRpc = app.rpcs.find(
+    (rpc) => rpc.name === 'listCustomerPoolAttributes',
+  );
+
+  assert.ok(projectsRpc);
+  assert.deepEqual(projectsRpc.communication.qs, {
+    page: '1',
+    size: '100',
+  });
+
+  assert.ok(attributesRpc);
+  assert.deepEqual(attributesRpc.communication.qs, {
+    attributeTypes: 'custom',
+    page: '1',
+    size: '100',
+  });
+});

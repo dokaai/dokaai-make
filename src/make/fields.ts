@@ -61,6 +61,10 @@ export const buildParameterFromSchema = (
     field.help = normalized.description;
   }
 
+  if (normalized.default !== undefined) {
+    field.default = normalized.default;
+  }
+
   if (normalized.enum !== undefined) {
     field.type = 'select';
     field.options = normalized.enum

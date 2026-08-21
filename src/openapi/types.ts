@@ -13,6 +13,7 @@ export interface JsonSchema {
   title?: string;
   description?: string;
   enum?: readonly unknown[];
+  default?: unknown;
   required?: readonly string[];
   properties?: Record<string, JsonSchema>;
   items?: JsonSchema;

@@ -33,7 +33,9 @@ export interface MakeCommunication {
   headers?: Record<string, string>;
   body?: unknown;
   type?: string;
+  condition?: string | boolean;
   response?: {
+    limit?: number;
     iterate?: string;
     output?: unknown;
     error?: Record<string, unknown>;

@@ -60,13 +60,15 @@
       "name": "page",
       "type": "text",
       "label": "Page",
-      "required": true
+      "required": true,
+      "default": "1"
     },
     {
       "name": "size",
       "type": "text",
       "label": "Size",
-      "required": true
+      "required": true,
+      "default": "25"
     }
   ],
   "interface": [],
